@@ -45,6 +45,8 @@ public class DashboardController {
                 if (latestToken != null) {
                     // Process the token data as needed
                     System.out.println("Latest Token: " + latestToken.getToken());
+                    System.out.println("User ID: " + latestToken.getUser_Id());
+
                     // ...
                 } else {
                     // Token not found, handle the case accordingly
