@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dashboard.Entity.Token;
+import com.example.dashboard.Entity.User;
 import com.example.dashboard.Mapper.TokenMapper;
 
 @RestController
@@ -28,7 +29,9 @@ public class DashboardController {
     @GetMapping
     public String getDashboardData(@RequestHeader("Authorization") String authorizationHeader) {
         // Logic to retrieve and process dashboard data
-        
+        String username = "";
+
+
        // Logic to retrieve and process dashboard data
        System.out.println("Authorization Header: " + authorizationHeader);
        if (authorizationHeader != null && authorizationHeader.length() > 7) {
@@ -40,13 +43,15 @@ public class DashboardController {
         try{
                  Token latestToken = tokenMapper.getTokenByTokenValue(authorizationHeader);
 
+                 User userid = tokenMapper.getUserByUserID(Integer.toString(latestToken.getUser_Id()));
 
 
-                if (latestToken != null) {
+                if (latestToken != null && userid != null) {
                     // Process the token data as needed
                     System.out.println("Latest Token: " + latestToken.getToken());
                     System.out.println("User ID: " + latestToken.getUser_Id());
-
+                    System.out.println("Username " + userid.getFirstname() + userid.getLastname());
+                    username = userid.getFirstname() + userid.getLastname();
                     // ...
                 } else {
                     // Token not found, handle the case accordingly
@@ -59,6 +64,6 @@ public class DashboardController {
                 
 
        
-       return "Dashboard data";
+       return username;
     }
 }
